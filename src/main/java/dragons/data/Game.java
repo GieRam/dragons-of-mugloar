@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Game {
 
-    private Long gameId;
+    private Integer gameId;
     private Knight knight;
 
-    public Game(@JsonProperty("attack") Long gameId,
+    public Game(@JsonProperty("attack") Integer gameId,
                 @JsonProperty("knight") Knight knight) {
         this.gameId = gameId;
         this.knight = knight;
     }
 
-    public Long getGameId() {
+    public Integer getGameId() {
         return gameId;
     }
 
