@@ -26,6 +26,6 @@ public class Application {
     private GameEngine gameEngine;
 
     private void start(String[] args) throws Exception {
-        System.out.println(gameEngine.playGame(50));
+        gameEngine.playGame(100);
     }
 }

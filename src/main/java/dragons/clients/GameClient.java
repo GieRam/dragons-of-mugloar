@@ -1,10 +1,10 @@
 package dragons.clients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dragons.data.Dragon;
-import dragons.data.Game;
-import dragons.data.Result;
-import dragons.data.Solution;
+import dragons.data.game.Dragon;
+import dragons.data.game.Game;
+import dragons.data.game.Result;
+import dragons.data.game.Solution;
 import dragons.exceptions.FailedGameException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -34,7 +34,8 @@ public class GameClient {
     }
 
     public Game getGame() throws Exception {
-        HttpResponse response = httpClient.execute(new HttpGet(gameUrl));
+        HttpGet request = new HttpGet(gameUrl);
+        HttpResponse response = httpClient.execute(request);
 
         if (response.getStatusLine().getStatusCode() != 200) {
             throw new FailedGameException();
@@ -43,17 +44,19 @@ public class GameClient {
         return objectMapper.readValue(response.getEntity().getContent(), Game.class);
     }
 
-    public Result putSolution(Integer gameId) throws Exception {
+    public Result putSolution(Integer gameId, Dragon dragon) throws Exception {
         HttpPut request = new HttpPut(gameUrl + "/" + gameId + "/solution");
 
-        String solutionJson = objectMapper.writeValueAsString(
-                new Solution(
-                        new Dragon(5, 5, 5, 5)));
+        String solutionJson = objectMapper.writeValueAsString(new Solution(dragon));
 
         request.addHeader("content-type", "application/json");
         request.setEntity(new StringEntity(solutionJson));
 
         HttpResponse response = httpClient.execute(request);
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new FailedGameException();
+        }
 
         return objectMapper.readValue(response.getEntity().getContent(), Result.class);
     }

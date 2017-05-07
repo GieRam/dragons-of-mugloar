@@ -1,3 +1,4 @@
+.idea/
 .gradle/
 /build/
 
@@ -6,4 +7,3 @@ gradle-app.setting
 *.jar
 *.war
 *.ear
-.idea/

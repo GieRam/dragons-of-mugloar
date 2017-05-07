@@ -1,11 +1,5 @@
 package dragons.clients.game
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import dragons.clients.GameClient
-import dragons.data.Game
-import org.apache.http.HttpResponse
-import org.apache.http.StatusLine
-import org.apache.http.impl.client.CloseableHttpClient
 import spock.lang.Specification
 
 class GameClientSpec extends Specification {
@@ -14,16 +8,16 @@ class GameClientSpec extends Specification {
 //
 //    CloseableHttpClient httpClient
 //
-//    def objectMapper
+//    def xmlMapper
 //
 //    def gameUrl
 //
 //    def 'setup'() {
 //        httpClient = Mock(CloseableHttpClient)
-//        objectMapper = Mock(ObjectMapper)
+//        xmlMapper = Mock(ObjectMapper)
 //        gameUrl = "http://www.dragonsofmugloar.com/api/game"
 //
-//        gameClient = new GameClient(httpClient, objectMapper,"http://www.dragonsofmugloar.com/api/game")
+//        gameClient = new GameClient(httpClient, xmlMapper,"http://www.dragonsofmugloar.com/api/game")
 //    }
 //
 //    def 'should execute http request and read response value on status 200'() {
@@ -38,7 +32,7 @@ class GameClientSpec extends Specification {
 //            gameClient.getGame()
 //        then:
 //            1 * httpClient.execute(_)
-//            1 * objectMapper.readValue(_, Game)
+//            1 * xmlMapper.readValue(_, Game)
 //    }
 
 }

@@ -1,4 +1,4 @@
-package dragons.data;
+package dragons.data.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
