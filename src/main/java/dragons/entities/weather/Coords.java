@@ -1,4 +1,4 @@
-package dragons.data.weather;
+package dragons.entities.weather;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 

@@ -1,11 +1,12 @@
 package dragons.engine;
 
 import dragons.clients.GameClient;
-import dragons.data.game.Dragon;
-import dragons.data.game.Game;
-import dragons.data.game.Result;
-import dragons.engine.print.Printer;
-import dragons.solution.DragonFactory;
+import dragons.entities.game.Dragon;
+import dragons.entities.game.Game;
+import dragons.entities.game.GameOutput;
+import dragons.entities.game.Result;
+import dragons.engine.printers.Printer;
+import dragons.factories.DragonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,23 +33,23 @@ public class GameEngine {
     }
 
     public void playGame(int times) {
-        Map<Game, Result> results = playGameFor(times);
-        printer.print(results);
+        Map<Game, GameOutput> gameOutputs = playGameFor(times);
+        printer.print(gameOutputs);
     }
 
-    private Map<Game, Result> playGameFor(int times) {
-        Map<Game, Result> results = new HashMap<>();
-        IntStream.rangeClosed(1, times).forEach((index) -> {
+    private Map<Game, GameOutput> playGameFor(int times) {
+        Map<Game, GameOutput> gameOutputs = new HashMap<>();
+        IntStream.range(0, times).forEach((index) -> {
             try {
                 Game game = gameClient.getGame();
                 Dragon dragon = dragonFactory.createDragonFor(game);
                 Result result = gameClient.putSolution(game.getGameId(), dragon);
-                result.setDragon(dragon);
-                results.put(game, result);
+                gameOutputs.put(game, new GameOutput(result, dragon));
             } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
         });
-        return results;
+        return gameOutputs;
     }
 
 }

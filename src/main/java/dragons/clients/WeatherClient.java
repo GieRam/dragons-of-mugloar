@@ -1,7 +1,7 @@
 package dragons.clients;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import dragons.data.weather.WeatherReport;
+import dragons.entities.weather.WeatherReport;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WeatherClient {
-
-    // TODO: handle exceptions
+public class WeatherClient extends AbstractClient {
 
     private HttpClient httpClient;
     private String weatherUrl;
@@ -27,9 +25,10 @@ public class WeatherClient {
     }
 
     public WeatherReport getWeatherReport(Integer gameId) throws Exception {
-        HttpGet request = new HttpGet(weatherUrl + gameId);
-        HttpResponse response = httpClient.execute(request);
-
+        HttpResponse response = managedRequest(() -> {
+            HttpGet request = new HttpGet(weatherUrl + gameId);
+            return httpClient.execute(request);
+        });
         return xmlMapper.readValue(response.getEntity().getContent(), WeatherReport.class);
     }
 }

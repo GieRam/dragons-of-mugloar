@@ -1,14 +1,13 @@
-package dragons.solution;
+package dragons.factories;
 
 import dragons.clients.WeatherClient;
-import dragons.data.game.Dragon;
-import dragons.data.game.Game;
-import dragons.data.weather.WeatherReport;
+import dragons.entities.game.Dragon;
+import dragons.entities.game.Game;
+import dragons.entities.weather.WeatherReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Component
 public class DragonFactory {
@@ -29,10 +28,15 @@ public class DragonFactory {
         this.weatherClient = weatherClient;
     }
 
-    public Dragon createDragonFor(Game game) throws Exception {
+    public Dragon createDragonFor(Game game) {
 
         // adjust for weather
-        WeatherReport report = weatherClient.getWeatherReport(game.getGameId());
+        WeatherReport report = null;
+        try {
+            report = weatherClient.getWeatherReport(game.getGameId());
+        } catch (Exception e) {
+            return null;
+        }
         if (RAIN.equals(report.getCode())) {
             return createRainDragon();
         }
@@ -70,30 +74,39 @@ public class DragonFactory {
 
         // adjust for anorexia
         Optional<String> zeroStatKey = getZeroStatKey(balancedStats);
-        zeroStatKey.ifPresent(balancedStats::remove);
         if (zeroStatKey.isPresent()) {
+            adjustedStats.put(zeroStatKey.get(), balancedStats.get(zeroStatKey.get()));
+            balancedStats.remove(zeroStatKey.get());
+
             highestStat = getHighestStatKey(balancedStats);
             adjustedStats.put(highestStat, balancedStats.get(highestStat) - 2);
             balancedStats.remove(highestStat);
+            added = added - 2;
         }
 
         // adjust what's left
-        IntStream.range(0, added).forEach((index) -> {
+        for (; added > 0; added--) {
+            if (balancedStats.size() == 0) {
+                break;
+            }
             String highestStatKey = getHighestStatKey(balancedStats);
             adjustedStats.put(highestStatKey, balancedStats.get(highestStatKey) - 1);
             balancedStats.remove(highestStatKey);
-        });
+        }
 
         // add what's left
         adjustedStats.putAll(balancedStats);
 
         return new Dragon(adjustedStats.get(SCALE_THICKNESS),
-                adjustedStats.get(CLAW_SHARPNESS),
-                adjustedStats.get(WING_STRENGTH),
-                adjustedStats.get(FIRE_BREATH));
+                            adjustedStats.get(CLAW_SHARPNESS),
+                            adjustedStats.get(WING_STRENGTH),
+                            adjustedStats.get(FIRE_BREATH));
     }
 
     private String getHighestStatKey(Map<String, Integer> stats) {
+        if (stats.size() == 1) {
+            return stats.entrySet().iterator().next().getKey();
+        }
         return Collections.max(stats.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
     }
 
@@ -107,7 +120,7 @@ public class DragonFactory {
     }
 
     private Dragon createRainDragon() {
-        return new Dragon(5,10,5,0);
+        return new Dragon(5, 10, 5, 0);
     }
 
     private Dragon createBalancedDragon() {

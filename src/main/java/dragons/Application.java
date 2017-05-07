@@ -10,7 +10,6 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = setupApplicationContext();
-
         Application application = context.getBean(Application.class);
         application.start(args);
     }
@@ -26,6 +25,6 @@ public class Application {
     private GameEngine gameEngine;
 
     private void start(String[] args) throws Exception {
-        gameEngine.playGame(100);
+        gameEngine.playGame((Integer.valueOf(args[0])));
     }
 }

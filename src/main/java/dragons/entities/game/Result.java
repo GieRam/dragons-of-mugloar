@@ -1,4 +1,4 @@
-package dragons.data.game;
+package dragons.entities.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +8,6 @@ public class Result {
 
     private String status;
     private String message;
-    private Dragon dragon;
 
     public Result(@JsonProperty("status") String status,
                   @JsonProperty("message") String message) {
@@ -22,14 +21,6 @@ public class Result {
 
     public String getMessage() {
         return message;
-    }
-
-    public Dragon getDragon() {
-        return dragon;
-    }
-
-    public void setDragon(Dragon dragon) {
-        this.dragon = dragon;
     }
 
     @Override
