@@ -21,6 +21,7 @@ public class WeatherReport {
                          @JacksonXmlProperty(localName = "code") String code,
                          @JacksonXmlProperty(localName = "message") String message,
                          @JacksonXmlProperty(localName = "varX-Rating") Double varXRating) {
+        this.time = time;
         this.coords = coords;
         this.code = code;
         this.message = message;

@@ -4,12 +4,13 @@ import dragons.clients.GameClient;
 import dragons.data.game.Dragon;
 import dragons.data.game.Game;
 import dragons.data.game.Result;
+import dragons.engine.print.Printer;
 import dragons.solution.DragonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Component
@@ -31,18 +32,19 @@ public class GameEngine {
     }
 
     public void playGame(int times) {
-        List<Result> results = playGameFor(times);
+        Map<Game, Result> results = playGameFor(times);
         printer.print(results);
     }
 
-    private List<Result> playGameFor(int times) {
-        List<Result> results = new ArrayList<>();
+    private Map<Game, Result> playGameFor(int times) {
+        Map<Game, Result> results = new HashMap<>();
         IntStream.rangeClosed(1, times).forEach((index) -> {
             try {
                 Game game = gameClient.getGame();
                 Dragon dragon = dragonFactory.createDragonFor(game);
                 Result result = gameClient.putSolution(game.getGameId(), dragon);
-                results.add(result);
+                result.setDragon(dragon);
+                results.put(game, result);
             } catch (Exception ignored) {
             }
         });

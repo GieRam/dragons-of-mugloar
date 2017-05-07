@@ -41,4 +41,14 @@ public class Knight {
     public Integer getEndurance() {
         return endurance;
     }
+
+    @Override
+    public String toString() {
+        return "Knight: "
+                + name
+                + ", attack: " + attack
+                + ", armor: " + armor
+                + ", agility: " + agility
+                + ", endurance: " + endurance;
+    }
 }

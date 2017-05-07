@@ -23,15 +23,40 @@ public class Dragon {
         return scaleThickness;
     }
 
+    public void setScaleThickness(Integer scaleThickness) {
+        this.scaleThickness = scaleThickness;
+    }
+
     public Integer getClawSharpness() {
         return clawSharpness;
+    }
+
+    public void setClawSharpness(Integer clawSharpness) {
+        this.clawSharpness = clawSharpness;
     }
 
     public Integer getWingStrength() {
         return wingStrength;
     }
 
+    public void setWingStrength(Integer wingStrength) {
+        this.wingStrength = wingStrength;
+    }
+
     public Integer getFireBreath() {
         return fireBreath;
+    }
+
+    public void setFireBreath(Integer fireBreath) {
+        this.fireBreath = fireBreath;
+    }
+
+    @Override
+    public String toString() {
+        return "Dragon: "
+                + "scaleThickness: " + scaleThickness
+                + ", clawSharpness: " + clawSharpness
+                + ", wingStrength: " + wingStrength
+                + ", fireBreath: " + fireBreath;
     }
 }
