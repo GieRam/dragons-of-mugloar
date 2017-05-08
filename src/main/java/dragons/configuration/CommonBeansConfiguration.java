@@ -8,6 +8,7 @@ import dragons.engine.printers.DetailedPrinter;
 import dragons.engine.printers.Printer;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,12 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @PropertySource("classpath:application.properties")
 public class CommonBeansConfiguration {
 
-    @Value("${game.printer.type}")
-    private String printerType;
+    private final PrinterFactory printerFactory;
+
+    @Autowired
+    public CommonBeansConfiguration(PrinterFactory printerFactory) {
+        this.printerFactory = printerFactory;
+    }
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -33,19 +38,7 @@ public class CommonBeansConfiguration {
 
     @Bean
     public Printer printer() {
-        switch (printerType) {
-            case "detailed":
-                return new DetailedPrinter(resultsCalculator());
-            case "basic":
-                return new BasicPrinter(resultsCalculator());
-            default:
-                return new BasicPrinter(resultsCalculator());
-        }
-    }
-
-    @Bean
-    public ResultsCalculator resultsCalculator() {
-        return new ResultsCalculator();
+        return printerFactory.createPrinter();
     }
 
     @Bean

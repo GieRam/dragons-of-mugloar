@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Dragon {
 
+    public static final String SCALE_THICKNESS = "scaleThickness";
+    public static final String CLAW_SHARPNESS = "clawSharpness";
+    public static final String WING_STRENGTH = "wingStrength";
+    public static final String FIRE_BREATH = "fireBreath";
+
     private Integer scaleThickness;
     private Integer clawSharpness;
     private Integer wingStrength;

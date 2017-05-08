@@ -3,17 +3,14 @@ package dragons.engine.printers;
 import dragons.engine.calculators.ResultsCalculator;
 import dragons.entities.game.Game;
 import dragons.entities.game.GameOutput;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 
-@Component
 public class DetailedPrinter implements Printer {
 
     private ResultsCalculator resultsCalculator;
 
-    @Autowired
     public DetailedPrinter(ResultsCalculator resultsCalculator) {
         this.resultsCalculator = resultsCalculator;
     }
@@ -21,16 +18,20 @@ public class DetailedPrinter implements Printer {
     @Override
     public void print(Map<Game, GameOutput> gameOutputs) {
         System.out.println("=====================================================");
-        System.out.println("Games count: " + gameOutputs.size() + ", win ratio: " + resultsCalculator.calculateWinRatio(gameOutputs) + "%");
+        System.out.printf("Games count: %d, win ratio: %d%%\n", gameOutputs.size(), resultsCalculator.calculateWinRatio(gameOutputs));
         System.out.println("=====================================================");
-        System.out.println("");
-        System.out.println("Detailed outcome: ");
+        System.out.println();
+        System.out.println("Detailed outcome log: ");
 
-        gameOutputs.forEach((key, value) -> {
-            System.out.println("====== Game ID: " + key.getGameId() + " =======");
-            System.out.println(value.getResult());
-            System.out.println(key.getKnight());
-            System.out.println(value.getDragon());
-        });
+        gameOutputs.forEach(printGameLog());
+    }
+
+    private BiConsumer<Game, GameOutput> printGameLog() {
+        return (game, gameOutput) -> {
+            System.out.printf("====== Game ID: %d =======\n", game.getGameId());
+            System.out.println(gameOutput.getResult());
+            System.out.println(game.getKnight());
+            System.out.println(gameOutput.getDragon());
+        };
     }
 }

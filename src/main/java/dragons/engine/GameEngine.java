@@ -1,11 +1,11 @@
 package dragons.engine;
 
 import dragons.clients.GameClient;
+import dragons.engine.printers.Printer;
 import dragons.entities.game.Dragon;
 import dragons.entities.game.Game;
 import dragons.entities.game.GameOutput;
 import dragons.entities.game.Result;
-import dragons.engine.printers.Printer;
 import dragons.factories.DragonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,8 +45,9 @@ public class GameEngine {
                 Dragon dragon = dragonFactory.createDragonFor(game);
                 Result result = gameClient.putSolution(game.getGameId(), dragon);
                 gameOutputs.put(game, new GameOutput(result, dragon));
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // TODO: Implement fallback strategy
             }
         });
         return gameOutputs;
