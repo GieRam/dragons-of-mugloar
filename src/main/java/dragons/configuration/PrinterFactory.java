@@ -15,7 +15,7 @@ public class PrinterFactory {
     private ResultsCalculator resultsCalculator;
 
     @Autowired
-    public PrinterFactory(@Value("${game.printer.type}") String printerType,
+    public PrinterFactory(@Value("${printer.type}") String printerType,
                           ResultsCalculator resultsCalculator) {
         this.printerType = printerType;
         this.resultsCalculator = resultsCalculator;
