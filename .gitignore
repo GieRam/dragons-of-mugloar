@@ -1,9 +1,4 @@
 .idea/
 .gradle/
 /build/
-
 gradle-app.setting
-*.class
-*.jar
-*.war
-*.ear
