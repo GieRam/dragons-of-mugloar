@@ -7,6 +7,9 @@ public class Game {
     private Integer gameId;
     private Knight knight;
 
+    public Game() {
+    }
+
     public Game(@JsonProperty("attack") Integer gameId,
                 @JsonProperty("knight") Knight knight) {
         this.gameId = gameId;

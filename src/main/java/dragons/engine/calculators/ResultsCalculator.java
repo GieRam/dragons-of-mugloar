@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Component
 public class ResultsCalculator {
 
-    public int calculateWinRatio(Map<Game, GameOutput> gameOutputs) {
-        List<Result> results = collectResultsFrom(gameOutputs);
+    public int calculateWinRatio(Map<Game, GameOutput> gameResults) {
+        List<Result> results = collectResultsFrom(gameResults);
         double victories = results.stream().filter(this::isVictory).count();
-        double ratio = victories / gameOutputs.size() * 100;
+        double ratio = victories / gameResults.size() * 100;
         return (int) ratio;
     }
 

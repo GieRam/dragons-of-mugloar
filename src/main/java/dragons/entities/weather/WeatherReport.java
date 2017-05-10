@@ -6,6 +6,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName = "report")
 public class WeatherReport {
 
+    public static final String NORMAL = "NMR";
+    public static final String STORM = "SRO";
+    public static final String RAIN = "HVA";
+    public static final String LONG_DRY = "T E";
+
     private String time;
 
     private Coords coords;

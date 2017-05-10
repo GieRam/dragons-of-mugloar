@@ -10,13 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 import static dragons.entities.game.Dragon.*;
+import static dragons.entities.weather.WeatherReport.*;
 
 @Component
 public class DragonFactory {
-
-    private static final String STORM = "SRO";
-    private static final String RAIN = "HVA";
-    private static final String LONG_DRY = "T E";
 
     private DragonStatsResolver dragonStatsResolver;
     private WeatherClient weatherClient;
