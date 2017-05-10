@@ -64,7 +64,8 @@ public class DragonStatsResolver {
         }
     }
 
-    private void adjustForAnorexia(Map<String, Integer> balancedStats, Map<String, Integer> adjustedStats) {
+    private void adjustForAnorexia(Map<String, Integer> balancedStats,
+                                   Map<String, Integer> adjustedStats) {
         Optional<String> zeroStatKey = getZeroStatKey(balancedStats);
         if (zeroStatKey.isPresent()) {
             adjustedStats.put(zeroStatKey.get(), balancedStats.get(zeroStatKey.get()));

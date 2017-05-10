@@ -31,7 +31,7 @@ public class DragonFactory {
     public Dragon createDragonFor(Game game) {
         Optional<Dragon> weatherDragon = createDragonForWeather(game.getGameId());
         if (weatherDragon.isPresent()) {
-            return weatherDragon.get();
+            return weatherDragon.get().isStub() ? null : weatherDragon.get();
         }
 
         Map<String, Integer> optimalStats = dragonStatsResolver.getOptimalStatsFor(game);
@@ -47,13 +47,20 @@ public class DragonFactory {
             if (RAIN.equals(report.getCode())) {
                 return Optional.of(createRainDragon());
             }
-            if (LONG_DRY.equals(report.getCode()) || STORM.equals(report.getCode())) {
+            if (LONG_DRY.equals(report.getCode())) {
                 return Optional.of(createBalancedDragon());
+            }
+            if (STORM.equals(report.getCode())) {
+                return Optional.of(createStubDragon());
             }
             return Optional.empty();
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    private Dragon createStubDragon() {
+        return new Dragon(0,0,0,0);
     }
 
     private Dragon createRainDragon() {

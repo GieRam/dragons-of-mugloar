@@ -56,6 +56,13 @@ public class Dragon {
         this.fireBreath = fireBreath;
     }
 
+    public boolean isStub() {
+        return this.scaleThickness == 0
+                && this.clawSharpness == 0
+                && this.wingStrength == 0
+                && this.fireBreath == 0;
+    }
+
     @Override
     public String toString() {
         return "Dragon: "
